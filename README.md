@@ -2,6 +2,21 @@
 
 ## Installation
 
+### Rabbit MQ
+
+````
+$ brew update
+$ brew install rabbitmq
+$ brew services start rabbitmq
+````
+
+### mysql
+
+````
+$ brew install mysql
+$ mysql.server start
+````
+
 ### Cloning and building
 
 ````
@@ -65,5 +80,13 @@ iex> Consumer.start_link
 ````
 iex(1)> import Ecto.Query
 nil
-iex(2)> Repo.one from test in Repo.Test, limit: 1
+iex(2)> Repo.one from test in Repo.MessageStore, limit: 1
+````
+
+## Inserting a record into the MySQL database
+
+````
+iex(1)> import Ecto.Query
+nil
+iex> %Repo.MessageStore{payload: "this is a message"} |> Repo.insert
 ````

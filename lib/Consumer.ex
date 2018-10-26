@@ -34,6 +34,11 @@ defmodule Consumer do
   end
 
   # Confirmation sent by the broker after registering this process as a consumer
+  def handle_info({:basic_consume_ok, %{consumer_tag: consumer_tag}}, chan) do
+    {:noreply, chan}
+  end
+
+  # Confirmation sent by the broker after registering this process as a consumer
   def handle_info({:DOWN, _, :process, _pid, _reason}, _) do
     {:ok, chan} = rabbitmq_connect
     {:noreply, chan}
@@ -69,13 +74,13 @@ defmodule Consumer do
   end
 
   defp consume(channel, tag, redelivered, payload) do
-    number = String.to_integer(payload)
-    if number <= 10 do
+    if String.length(payload) > 0 do
       :ok = Basic.ack channel, tag
-      IO.puts "Consumed a #{number}."
+      IO.puts "Consumed a #{payload}."
+      %Repo.MessageStore{payload: payload} |> Repo.insert
     else
       :ok = Basic.reject channel, tag, requeue: false
-      IO.puts "#{number} is too big and was rejected."
+      IO.puts "#{payload} was empty and was rejected."
     end
 
   rescue
