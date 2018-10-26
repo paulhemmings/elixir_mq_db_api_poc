@@ -17,7 +17,9 @@ defmodule Adapter.Crypto do
 
   def compare(coin, currencyList) do
     currencies = Enum.join(currencyList, ",")
-    Adapter.callUrl("https://min-api.cryptocompare.com/data/price?fsym=#{coin}&tsyms=#{currencies}")
+    "https://min-api.cryptocompare.com/data/price?fsym=#{coin}&tsyms=#{currencies}"
+    |> Adapter.callUrl
+    |> Adapter.toBody
   end
 
   def coinList(body) do
@@ -29,19 +31,18 @@ defmodule Adapter.Crypto do
   end
 
   def parseCoins(coinMap) do
-    Enum.map(coinMap, fn {symbol, detail} -> %{symbol => Adapter.Crypto.short(detail)} end)
+    Enum.map(coinMap, fn {symbol, detail} -> Adapter.Crypto.short(detail) end)
   end
 
   def short(detail) do
     %{
-      "CoinName" => detail["CoinName"],
-      "Id" => detail["Id"],
-      "ImageUrl" => detail["ImageUrl"],
-      "IsTrading" => detail["IsTrading"],
-      "Name" => detail["Name"],
-      "Symbol" => detail["Symbol"],
-      "TotalCoinSupply" => detail["TotalCoinSupply"],
-      "Url" => detail["Url"]
+      :coin_name => detail["CoinName"],
+      :coin_id => detail["Id"],
+      :image_url => detail["ImageUrl"],
+      :is_trading => to_string(detail["IsTrading"]),
+      :symbol => detail["Symbol"],
+      :total_coin_supply => detail["TotalCoinSupply"],
+      :url => detail["Url"]
     }
   end
 

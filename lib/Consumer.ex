@@ -6,8 +6,8 @@ defmodule Consumer do
     GenServer.start_link(__MODULE__, [], [])
   end
 
-  @exchange    "gen_server_test_exchange"
-  @queue       "gen_server_test_queue"
+  @exchange    "crypto_coin_exchange"
+  @queue       "crypto_coin_queue"
   @queue_error "#{@queue}_error"
 
   def init(_opts) do
@@ -77,7 +77,21 @@ defmodule Consumer do
     if String.length(payload) > 0 do
       :ok = Basic.ack channel, tag
       IO.puts "Consumed a #{payload}."
-      %Repo.MessageStore{payload: payload} |> Repo.insert
+
+      coin = Poison.decode!(payload)
+
+      IO.puts "decoded JSON String"
+
+      %Repo.CryptoStore{
+        :coin_name => coin["coin_name"],
+        :coin_id => coin["coin_id"],
+        :image_url => coin["image_url"],
+        :is_trading => coin["is_trading"],
+        :symbol => coin["symbol"],
+        :total_coin_supply => coin["total_coin_supply"],
+        :url => coin["url"]
+      } |> Repo.insert
+
     else
       :ok = Basic.reject channel, tag, requeue: false
       IO.puts "#{payload} was empty and was rejected."

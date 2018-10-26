@@ -28,9 +28,11 @@ defmodule ElixirMqDbApiPoc.MixProject do
       # https://github.com/pma/amqp/issues/99 <= issue with ranch dependency
       {:ranch_proxy_protocol, "~> 2.0", override: true},
 
-      # DB repository
-      # http://geoffreylessel.com/2016/using-ecto-with-an-existing-mysql-database/
+      # DB ORM
       {:ecto, "~> 2.0"},
+
+      # MYSQL
+      # http://geoffreylessel.com/2016/using-ecto-with-an-existing-mysql-database/
       {:mariaex, "~> 0.7"},
 
       # decoding JSON strings
