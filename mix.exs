@@ -22,13 +22,24 @@ defmodule ElixirMqDbApiPoc.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # Connect to AMQP
       # https://github.com/pma/amqp
       {:amqp, "~> 1.0"},
       # https://github.com/pma/amqp/issues/99 <= issue with ranch dependency
       {:ranch_proxy_protocol, "~> 2.0", override: true},
+
+      # DB repository
       # http://geoffreylessel.com/2016/using-ecto-with-an-existing-mysql-database/
       {:ecto, "~> 2.0"},
-      {:mariaex, "~> 0.7"}
+      {:mariaex, "~> 0.7"},
+
+      # decoding JSON strings
+      # https://github.com/devinus/poison
+      {:poison, "~> 3.1"},
+
+      # making HTTP request
+      # https://github.com/myfreeweb/httpotion
+      {:httpotion, "~> 3.1.0"}
     ]
   end
 end
