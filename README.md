@@ -17,6 +17,13 @@ $ brew install mysql
 $ mysql.server start
 ````
 
+### postgreSQL
+
+````
+$ brew install postgres
+$ brew services start postgresql
+````
+
 ### Cloning and building
 
 ````

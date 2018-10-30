@@ -11,9 +11,9 @@ defmodule ElixirMqDbApiPoc.Application do
       # Starts a worker by calling: ElixirMqDbApiPoc.Worker.start_link(arg)
       # {ElixirMqDbApiPoc.Worker, arg},
 
-      {
-        Repo, []
-      }
+      { Repo, [] },
+      { PostRepo, [] }
+
 
     ]
 

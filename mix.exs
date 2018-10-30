@@ -14,7 +14,7 @@ defmodule ElixirMqDbApiPoc.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:amqp, :logger, :ecto, :mariaex],
+      extra_applications: [:amqp, :logger, :postgrex, :ecto, :mariaex],
       mod: {ElixirMqDbApiPoc.Application, []}
     ]
   end
@@ -34,6 +34,9 @@ defmodule ElixirMqDbApiPoc.MixProject do
       # MYSQL
       # http://geoffreylessel.com/2016/using-ecto-with-an-existing-mysql-database/
       {:mariaex, "~> 0.7"},
+
+      # POSTGRESQL
+      {:postgrex, ">= 0.0.0"},
 
       # decoding JSON strings
       # https://github.com/devinus/poison
